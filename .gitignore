@@ -6,3 +6,7 @@
 *.asm
 _*
 *.img
+xv6.out.*
+xv6-labs-2021/kernel/kernel
+xv6-labs-2021/mkfs/mkfs
+xv6-labs-2021/user/initcode
