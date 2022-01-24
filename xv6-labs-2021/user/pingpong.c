@@ -4,26 +4,23 @@
 
 int main(int argc, char *argv[])
 {
-    int p[2];
+    int p[2], fd;
     pipe(p);
-    // close(1);
     
     if (fork() == 0) {
         char buf[32];
-        dup(p[1]);
-        close(p[1]);
-        read(p[1], buf, 32);
+        fd = dup(p[1]);
+        read(fd, buf, 32);
         int child_pid = getpid();
         
         printf("%d: received ping\n", child_pid);
-        write(p[1], "start", 5);
+        write(fd, "start", 5);
     } else {
-        dup(p[0]);
-        close(p[0]);
-        write(p[0], "start", 5);
+        fd = dup(p[0]);
+        write(fd, "start", 5);
 
         char buf[32];
-        read(p[0], buf, 32);
+        read(fd, buf, 32);
         int parent_pid = getpid();
         wait(0);
         printf("%d: received pong\n", parent_pid);
